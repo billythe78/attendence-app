@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Attendance App</div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#attendance" class="nav-link" data-page="attendance">Attendance Page</a></li>
+                <li><a href="#query" class="nav-link" data-page="query">Query Page</a></li>
+                <li><a href="#outpass" class="nav-link" data-page="outpass">Outpass Page</a></li>
+                <li><a href="#events" class="nav-link" data-page="events">Upcoming Events</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="attendance" class="page-content hidden">
+            <h2>Attendance Page</h2>
+            <form id="attendance-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="room">Room No:</label>
+                <input type="text" id="room" name="room" required>
+                <label for="attendance-number">Attendance Number:</label>
+                <input type="text" id="attendance-number" name="attendance-number" required>
+                <button type="submit">Generate QR Code</button>
+            </form>
+            <div id="qr-code-container" class="hidden">
+                <img id="qr-code" src="" alt="QR Code">
+            </div>
+            <p id="message" class="hidden">Attendance received!</p>
+        </section>
+
+        <section id="query" class="page-content hidden">
+            <h2>Query Page</h2>
+            <form id="query-form">
+                <label for="query-name">Name:</label>
+                <input type="text" id="query-name" name="name" required>
+                <label for="query-room">Room No:</label>
+                <input type="text" id="query-room" name="room" required>
+                <label for="query-enrollment">Enrollment No:</label>
+                <input type="text" id="query-enrollment" name="enrollment" required>
+                <label for="query-priority">Priority:</label>
+                <select id="query-priority" name="priority" required>
+                    <option value="critical">Critical</option>
+                    <option value="medium">Medium</option>
+                    <option value="light">Light</option>
+                </select>
+                <label for="query-attachment">Photo/Video:</label>
+                <input type="file" id="query-attachment" name="attachment" accept="image/*,video/*">
+                <label for="query-semester">Semester:</label>
+                <input type="text" id="query-semester" name="semester" required>
+                <label for="query-comments">Comments:</label>
+                <textarea id="query-comments" name="comments" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+            <div id="query-table-container" class="hidden">
+                <h3>Submitted Queries</h3>
+                <table id="query-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Room No</th>
+                            <th>Enrollment No</th>
+                            <th>Priority</th>
+                            <th>Attachment</th>
+                            <th>Semester</th>
+                            <th>Comments</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Outpass Page -->
+        <section id="outpass" class="page-content hidden">
+            <h2>Outpass Page</h2>
+            <form id="outpass-form">
+                <label for="outpass-name">Name:</label>
+                <input type="text" id="outpass-name" name="name" required>
+                <label for="outpass-course">Course:</label>
+                <input type="text" id="outpass-course" name="course" required>
+                <label for="outpass-enrollment">Enrollment No:</label>
+                <input type="text" id="outpass-enrollment" name="enrollment" required>
+                <label for="outpass-roll">Roll No:</label>
+                <input type="text" id="outpass-roll" name="roll" required>
+                <label for="outpass-purpose">Purpose of Visit:</label>
+                <textarea id="outpass-purpose" name="purpose" required></textarea>
+                <label for="outpass-in-time">In Time:</label>
+                <input type="datetime-local" id="outpass-in-time" name="in-time" required>
+                <label for="outpass-out-time">Out Time:</label>
+                <input type="datetime-local" id="outpass-out-time" name="out-time" required>
+                <label for="outpass-comments">Comments:</label>
+                <textarea id="outpass-comments" name="comments"></textarea>
+                <button type="button" id="verify-button">Verify</button>
+            </form>
+            <div id="otp-container" class="hidden">
+                <label for="otp-input">Enter OTP:</label>
+                <input type="text" id="otp-input" name="otp" required>
+                <button type="submit">Submit</button>
+            </div>
+        </section>
+
+        <section id="events" class="page-content hidden">
+            <h2>Upcoming Events</h2>
+            <!-- Upcoming Events Content -->
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
