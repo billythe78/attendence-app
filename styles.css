@@ -7,20 +7,106 @@ body, h1, h2, p, input, button, textarea, select {
 
 /* Basic styles */
 body {
+    --s: 25vmin;
+    --p: calc(var(--s) / 2);
+    --c1: rgb(13, 15, 173);
+    --c2: rgb(5, 21, 36);
+    --c3: rgb(104, 0, 0);
+    --bg: var(--c3);
+    --d: 4000ms;
+    --e: cubic-bezier(0.76, 0, 0.24, 1);
+    
+    background-color: var(--bg);
+    background-image:
+        linear-gradient(45deg, var(--c1) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--c1) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--c2) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--c2) 75%);
+    background-size: var(--s) var(--s);
+    background-position: 
+        calc(var(--p) * 1) calc(var(--p) * 0), 
+        calc(var(--p) * -1) calc(var(--p) * 1), 
+        calc(var(--p) * 1) calc(var(--p) * -1), 
+        calc(var(--p) * -1) calc(var(--p) * 0);
+    animation: 
+        colorAnimation var(--d) var(--e) infinite,
+        positionAnimation var(--d) var(--e) infinite;
     font-family: Arial, sans-serif;
-    background: linear-gradient(45deg, #080814, #ffe479, #f441a5, #42a1f5);
-    background-size: 400% 400%;
-    animation: gradientAnimation 20s ease infinite;
-    color: #333;
+    color: #fff; /* Changed text color to white */
     line-height: 1.6;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    overflow-x: hidden; /* Disable horizontal scrolling */
 }
 
+/* Keyframes for background color and position animation */
+@keyframes colorAnimation {
+    0%, 25% {
+        --bg: var(--c3);
+    }
+    26%, 50% {
+        --bg: var(--c1);
+    }
+    51%, 75% {
+        --bg: var(--c3);
+    }
+    76%, 100% {
+        --bg: var(--c2);
+    }
+}
+
+@keyframes positionAnimation {
+    0% {
+        background-position: 
+            calc(var(--p) * 1) calc(var(--p) * 0), 
+            calc(var(--p) * -1) calc(var(--p) * 1), 
+            calc(var(--p) * 1) calc(var(--p) * -1), 
+            calc(var(--p) * -1) calc(var(--p) * 0);
+    }
+    25% {
+        background-position: 
+            calc(var(--p) * 1) calc(var(--p) * 4), 
+            calc(var(--p) * -1) calc(var(--p) * 5), 
+            calc(var(--p) * 1) calc(var(--p) * 3), 
+            calc(var(--p) * -1) calc(var(--p) * 4);
+    }
+    50% {
+        background-position: 
+            calc(var(--p) * 3) calc(var(--p) * 8), 
+            calc(var(--p) * -3) calc(var(--p) * 9), 
+            calc(var(--p) * 2) calc(var(--p) * 7), 
+            calc(var(--p) * -2) calc(var(--p) * 8);
+    }
+    75% {
+        background-position: 
+            calc(var(--p) * 3) calc(var(--p) * 12), 
+            calc(var(--p) * -3) calc(var(--p) * 13), 
+            calc(var(--p) * 2) calc(var(--p) * 11), 
+            calc(var(--p) * -2) calc(var(--p) * 12);
+    }
+    100% {    
+        background-position: 
+            calc(var(--p) * 5) calc(var(--p) * 16), 
+            calc(var(--p) * -5) calc(var(--p) * 17), 
+            calc(var(--p) * 5) calc(var(--p) * 15), 
+            calc(var(--p) * -5) calc(var(--p) * 16);
+    }
+}
+
+@media (prefers-reduced-motion) {
+    body {
+        animation: none;
+    }
+}
+
+/* Header styles */
 header {
     background-color: #333;
     color: #fff;
+    position: sticky; /* Make the header sticky */
+    top: 0;
+    z-index: 1000; /* Ensure it stays on top */
 }
 
 .navbar {
@@ -28,8 +114,9 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    position: relative;
     width: 100%;
+    background: rgba(51, 51, 51, 0.8); /* Add slight transparency */
+    backdrop-filter: blur(10px); /* Add blur for glassmorphism */
 }
 
 .logo {
@@ -62,6 +149,7 @@ header {
     text-decoration: underline;
 }
 
+/* Main content area */
 main {
     padding: 2rem;
     max-width: 1200px;
@@ -75,43 +163,74 @@ main {
 
 h2 {
     margin-bottom: 1rem;
+    color: #fff; /* Changed header color to white */
 }
 
+/* Specific styles for Attendance Page heading */
+.attendance-heading {
+    color: #fff; /* Changed heading color to white */
+    font-size: 50px;
+    font-weight: bold;
+    font-family: monospace;
+    letter-spacing: 7px;
+    cursor: pointer;
+    transition: color 0.5s, text-shadow 0.5s, transform 0.5s;
+}
+
+.attendance-heading:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff;
+    transform: scale(1.1);
+}
+
+/* Form Glassmorphism */
 form {
     display: flex;
     flex-direction: column;
-    max-width: 500px;
+    max-width: 100%; /* Ensure it stays responsive */
+    width: 90%;
+    max-width: 600px; /* Increased width for Outpass Page form */
     margin: auto;
-    background: #fff;
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.15); /* Transparent form background */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Glass-like shadow */
+    backdrop-filter: blur(10px); /* Blur background behind form */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border for glass effect */
 }
 
 label {
     margin: 0.5rem 0;
     font-weight: bold;
+    color: #fff; /* Light color for contrast on form */
 }
 
 input, select, textarea {
     padding: 0.75rem;
     margin-bottom: 1rem;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Transparent border */
     border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent input background */
+    color: #fff; /* Input text color */
+}
+
+input::placeholder, select, textarea {
+    color: rgba(255, 255, 255, 0.6); /* Lighter placeholder text */
 }
 
 button {
     padding: 0.75rem;
-    background-color: #333;
+    background-color: rgba(51, 51, 51, 0.8); /* Semi-transparent button */
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #555;
+    background-color: rgba(51, 51, 51, 1); /* Darker on hover */
 }
 
 #qr-code-container {
@@ -137,20 +256,24 @@ button:hover {
 #query-table {
     width: 100%;
     border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.15); /* Add glassmorphism to table */
+    backdrop-filter: blur(10px);
 }
 
 #query-table th, #query-table td {
-    border: 1px solid #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Transparent border */
     padding: 0.75rem;
     text-align: left;
+    color: #fff; /* Light text for contrast */
 }
 
 #query-table th {
-    background-color: #f4f4f4;
+    background-color: rgba(0, 0, 0, 0.5); /* Darker for table header */
 }
 
+/* Status Colors */
 .status-resolved {
-    color: green;
+    color: lightgreen;
 }
 
 .status-unresolved {
@@ -183,7 +306,8 @@ button:hover {
         position: absolute;
         top: 100%;
         left: 0;
-        background: #333;
+        background: rgba(51, 51, 51, 0.9); /* Semi-transparent for glass effect */
+        backdrop-filter: blur(10px);
     }
 
     .nav-links.show {
@@ -205,15 +329,157 @@ button:hover {
     }
 }
 
-/* Smooth Gradient Animation */
-@keyframes gradientAnimation {
+/* Upcoming Events Page Styles */
+.events-heading {
+    color: #fff; /* Changed heading color to white */
+    font-size: 40px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ff6f61, #dce35b, #ffb64c, #ff6f61);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientTextAnimation 5s ease infinite;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+@keyframes gradientTextAnimation {
     0% {
-        background-position: 0% 50%;
+        background-position: 0% 0%;
     }
     50% {
-        background-position: 100% 50%;
+        background-position: 100% 100%;
     }
     100% {
-        background-position: 0% 50%;
+        background-position: 0% 0%;
+    }
+}
+
+.events-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+}
+
+.event-card {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    backdrop-filter: blur(8px); /* Glassmorphism effect */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Transparent border */
+    border-radius: 8px;
+    padding: 1rem;
+    width: 300px;
+    margin: 1rem;
+    color: #fff; /* White text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+.event-card h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    color: #fff; /* White text */
+}
+
+.event-card p {
+    margin: 0.5rem 0;
+    color: #fff; /* White text */
+}
+
+.events-table-heading {
+    color: #fff; /* White text */
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.events-table-container {
+    overflow-x: auto;
+}
+
+#events-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.15); /* Add glassmorphism to table */
+    backdrop-filter: blur(10px);
+}
+
+#events-table th, #events-table td {
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Transparent border */
+    padding: 0.75rem;
+    text-align: left;
+    color: #fff; /* White text */
+}
+
+#events-table th {
+    background-color: rgba(0, 0, 0, 0.5); /* Darker for table header */
+}
+
+/* Mobile responsiveness for events section */
+@media (max-width: 768px) {
+    .events-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .event-card {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+}
+/* Outpass Table Styles */
+#outpass-details-table-container {
+    margin-top: 1rem;
+}
+
+#outpass-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.15); /* Add glassmorphism to table */
+    backdrop-filter: blur(10px); /* Glass-like effect */
+}
+
+#outpass-details-table th, #outpass-details-table td {
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Transparent border */
+    padding: 0.75rem;
+    text-align: left;
+    color: #fff; /* White text */
+}
+
+#outpass-details-table th {
+    background-color: rgba(0, 0, 0, 0.5); /* Darker for table header */
+}
+
+/* Mobile responsiveness for the outpass details table */
+@media (max-width: 768px) {
+    #outpass-details-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    #outpass-details-table th, #outpass-details-table td {
+        display: block;
+        text-align: right;
+    }
+
+    #outpass-details-table th {
+        text-align: center;
+    }
+
+    #outpass-details-table td {
+        position: relative;
+        padding-left: 50%;
+    }
+
+    #outpass-details-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 1rem;
+        font-weight: bold;
+        color: #fff; /* White text for labels */
+        text-align: left;
     }
 }

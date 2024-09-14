@@ -22,7 +22,8 @@
 
     <main>
         <section id="attendance" class="page-content hidden">
-            <h2>Attendance Page</h2>
+            <h2 class="attendance-heading">Attendance Page</h2>
+            
             <form id="attendance-form">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
@@ -84,38 +85,96 @@
             </div>
         </section>
 
-        <!-- Outpass Page -->
         <section id="outpass" class="page-content hidden">
-            <h2>Outpass Page</h2>
             <form id="outpass-form">
                 <label for="outpass-name">Name:</label>
-                <input type="text" id="outpass-name" name="name" required>
+                <input type="text" id="outpass-name" name="name" minlength="3" required>
                 <label for="outpass-course">Course:</label>
-                <input type="text" id="outpass-course" name="course" required>
+                <input type="text" id="outpass-course" name="course" minlength="3" required>
                 <label for="outpass-enrollment">Enrollment No:</label>
-                <input type="text" id="outpass-enrollment" name="enrollment" required>
+                <input type="text" id="outpass-enrollment" name="enrollment" minlength="3" required>
                 <label for="outpass-roll">Roll No:</label>
-                <input type="text" id="outpass-roll" name="roll" required>
+                <input type="text" id="outpass-roll" name="roll" minlength="3" required>
                 <label for="outpass-purpose">Purpose of Visit:</label>
-                <textarea id="outpass-purpose" name="purpose" required></textarea>
+                <textarea id="outpass-purpose" name="purpose" minlength="3" required></textarea>
                 <label for="outpass-in-time">In Time:</label>
                 <input type="datetime-local" id="outpass-in-time" name="in-time" required>
                 <label for="outpass-out-time">Out Time:</label>
                 <input type="datetime-local" id="outpass-out-time" name="out-time" required>
                 <label for="outpass-comments">Comments:</label>
                 <textarea id="outpass-comments" name="comments"></textarea>
+                <label for="phone-input">Phone Number:</label>
+                <input type="tel" id="phone-input" name="phone" pattern="[0-9]{10}" minlength="10" maxlength="10" required>
                 <button type="button" id="verify-button">Verify</button>
+                <div id="otp-container" class="hidden">
+                    <label for="otp-input">Enter OTP:</label>
+                    <input type="text" id="otp-input" name="otp" required>
+                    <button type="submit">Submit</button>
+                    <p id="otp-message"></p>
+                </div>
             </form>
-            <div id="otp-container" class="hidden">
-                <label for="otp-input">Enter OTP:</label>
-                <input type="text" id="otp-input" name="otp" required>
-                <button type="submit">Submit</button>
-            </div>
+            <table id="outpass-details-table" class="hidden">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Enrollment No</th>
+                        <th>Roll No</th>
+                        <th>Purpose</th>
+                        <th>In Time</th>
+                        <th>Out Time</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Details will be added here -->
+                </tbody>
+            </table>
         </section>
 
         <section id="events" class="page-content hidden">
-            <h2>Upcoming Events</h2>
-            <!-- Upcoming Events Content -->
+            <h2 class="events-heading">Upcoming Events</h2>
+            <div class="events-container">
+                <div class="event-card">
+                    <h3>MIT Tech Conference 2024</h3>
+                    <p>Date: October 10, 2024</p>
+                    <p>Location: MIT Campus</p>
+                    <p>Description: A conference showcasing the latest advancements in technology.</p>
+                </div>
+                <div class="event-card">
+                    <h3>MIT Hackathon 2024</h3>
+                    <p>Date: November 5, 2024</p>
+                    <p>Location: MIT Campus</p>
+                    <p>Description: A 48-hour hackathon for students to build innovative projects.</p>
+                </div>
+            </div>
+            <div class="events-table-container">
+                <h3 class="events-table-heading">Event Schedule</h3>
+                <table id="events-table">
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>MIT Tech Conference 2024</td>
+                            <td>October 10, 2024</td>
+                            <td>MIT Campus</td>
+                            <td>A conference showcasing the latest advancements in technology.</td>
+                        </tr>
+                        <tr>
+                            <td>MIT Hackathon 2024</td>
+                            <td>November 5, 2024</td>
+                            <td>MIT Campus</td>
+                            <td>A 48-hour hackathon for students to build innovative projects.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
 

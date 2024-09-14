@@ -1,17 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Attendance Form
-    const form = document.getElementById('attendance-form');
+    const attendanceForm = document.getElementById('attendance-form');
     const qrCodeContainer = document.getElementById('qr-code-container');
     const qrCodeImage = document.getElementById('qr-code');
-    const message = document.getElementById('message');
+    const attendanceMessage = document.getElementById('message');
 
-    form.addEventListener('submit', (event) => {
+    attendanceForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
         // Get input values
         const name = document.getElementById('name').value;
         const room = document.getElementById('room').value;
         const attendanceNumber = document.getElementById('attendance-number').value;
+
+        // Validate input
+        if (!name || !room || !attendanceNumber) {
+            alert('Please fill all the fields.');
+            return;
+        }
 
         // Create URL for QR code generation using a web API
         const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Name:%20${encodeURIComponent(name)}%20Room:%20${encodeURIComponent(room)}%20Attendance%20Number:%20${encodeURIComponent(attendanceNumber)}`;
@@ -21,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Show QR code container and message
         qrCodeContainer.classList.remove('hidden');
-        message.classList.remove('hidden');
+        attendanceMessage.classList.remove('hidden');
     });
 
     // Query Form
@@ -40,6 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const semester = document.getElementById('query-semester').value;
         const comments = document.getElementById('query-comments').value;
         const attachment = document.getElementById('query-attachment').files[0];
+
+        // Validate input
+        if (!name || !room || !enrollment || !priority || !semester || !comments) {
+            alert('Please fill all required fields.');
+            return;
+        }
 
         let attachmentPath = '';
         if (attachment) {
@@ -192,30 +204,94 @@ document.addEventListener('DOMContentLoaded', () => {
     const verifyButton = document.getElementById('verify-button');
     const otpContainer = document.getElementById('otp-container');
     const otpInput = document.getElementById('otp-input');
-
+    const otpMessage = document.createElement('p');
+    otpMessage.id = 'otp-message';
+    otpContainer.appendChild(otpMessage);
+    
     let generatedOtp = '';
+    let phoneNumber = '';
 
     verifyButton.addEventListener('click', () => {
+        phoneNumber = document.getElementById('phone-input').value;
+        if (!phoneNumber || phoneNumber.length !== 10) {
+            alert('Please enter a valid 10-digit phone number.');
+            return;
+        }
+
         // Generate a random 6-digit OTP
         generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-        alert(`Your OTP is: ${generatedOtp}`); // In a real app, this would be sent via SMS/email
+        
+        // Mock sending OTP (Replace with real SMS API call)
+        console.log(`Sending OTP ${generatedOtp} to ${phoneNumber}`);
+        alert(`Your OTP is: ${generatedOtp}`); // In a real app, this would be sent via SMS
 
         // Show the OTP container for user input
         otpContainer.classList.remove('hidden');
+        otpMessage.textContent = ''; // Clear previous messages
     });
 
     outpassForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
         const userOtp = otpInput.value;
+        const inTime = new Date(document.getElementById('outpass-in-time').value);
+        const outTime = new Date(document.getElementById('outpass-out-time').value);
 
         if (userOtp === generatedOtp) {
+            if (outTime <= inTime) {
+                alert('Out Time must be later than In Time.');
+                return;
+            }
+
+            const timeDifference = (outTime - inTime) / 60000; // Difference in minutes
+            if (timeDifference < 30) {
+                alert('Out Time must be at least 30 minutes later than In Time.');
+                return;
+            }
+
             alert('OTP verified! Outpass submitted successfully.');
-            // Handle form submission logic here, such as saving data to localStorage or sending it to a server
+            // Extract and display form details in a table
+            displayOutpassDetails();
             outpassForm.reset();
             otpContainer.classList.add('hidden'); // Hide OTP container after successful verification
+            otpMessage.textContent = 'Outpass details have been submitted successfully.';
         } else {
-            alert('Invalid OTP. Please try again.');
+            otpMessage.textContent = 'Invalid OTP. Please try again.';
         }
     });
+
+    function displayOutpassDetails() {
+        const detailsTable = document.getElementById('outpass-details-table');
+        const detailsBody = detailsTable.querySelector('tbody');
+
+        // Clear existing rows
+        detailsBody.innerHTML = '';
+
+        // Get input values
+        const name = document.getElementById('outpass-name').value;
+        const course = document.getElementById('outpass-course').value;
+        const enrollment = document.getElementById('outpass-enrollment').value;
+        const roll = document.getElementById('outpass-roll').value;
+        const purpose = document.getElementById('outpass-purpose').value;
+        const inTime = document.getElementById('outpass-in-time').value;
+        const outTime = document.getElementById('outpass-out-time').value;
+        const comments = document.getElementById('outpass-comments').value;
+
+        // Add data to table
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${course}</td>
+            <td>${enrollment}</td>
+            <td>${roll}</td>
+            <td>${purpose}</td>
+            <td>${inTime}</td>
+            <td>${outTime}</td>
+            <td>${comments}</td>
+        `;
+        detailsBody.appendChild(row);
+
+        // Show the details table
+        detailsTable.classList.remove('hidden');
+    }
 });
