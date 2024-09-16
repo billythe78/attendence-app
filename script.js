@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // New navbar functionality
+    const openButton = document.querySelector(".open-btn");
+    const closeButton = document.querySelector(".close-btn");
+    const navs = document.querySelectorAll(".nav");
+
+    openButton.addEventListener("click", () =>
+        navs.forEach((nav) => nav.classList.add("visible"))
+    );
+
+    closeButton.addEventListener("click", () =>
+        navs.forEach((nav) => nav.classList.remove("visible"))
+    );
+
     // Attendance Form
     const attendanceForm = document.getElementById('attendance-form');
     const qrCodeContainer = document.getElementById('qr-code-container');
@@ -180,14 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load data on page load
     loadFromLocalStorage();
 
-    // Handle hamburger menu toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const navLinks = document.getElementById('nav-links');
-
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('show');
-    });
-
     // Handle sidebar navigation
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
@@ -196,6 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const pageId = link.getAttribute('data-page');
             document.getElementById(pageId).classList.remove('hidden');
+            // Close the mobile menu after selecting a page
+            navs.forEach((nav) => nav.classList.remove("visible"));
         });
     });
 
@@ -294,4 +301,58 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show the details table
         detailsTable.classList.remove('hidden');
     }
+    document.getElementById('get-location').addEventListener('click', () => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                document.getElementById('location-status').textContent = `Location: ${lat}, ${lon}`;
+                // Here you would typically send this data to your server
+            }, () => {
+                document.getElementById('location-status').textContent = "Unable to retrieve your location";
+            });
+        } else {
+            document.getElementById('location-status').textContent = "Geolocation is not supported by your browser";
+        }
+    });
+    
+    // Attendance history functionality
+    function addAttendanceRecord(type, time) {
+        const list = document.getElementById('attendance-list');
+        const item = document.createElement('li');
+        item.textContent = `${type} at ${time}`;
+        list.prepend(item);
+        
+        // Limit list to last 5 entries
+        if (list.children.length > 5) {
+            list.removeChild(list.lastChild);
+        }
+    }
+    
+    // Attendance statistics functionality
+    let checkIns = 0;
+    let checkOuts = 0;
+    let streak = 0;
+    
+    function updateStats(type) {
+        if (type === 'in') checkIns++;
+        if (type === 'out') checkOuts++;
+        streak++; // This is a simplified version. In reality, you'd need to check if it's a new day.
+        
+        document.getElementById('total-checkins').textContent = checkIns;
+        document.getElementById('total-checkouts').textContent = checkOuts;
+        document.getElementById('attendance-streak').textContent = streak;
+    }
+    
+    // Modify your existing form submission handler
+    document.getElementById('attendance-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        // ... existing code ...
+        
+        const type = document.getElementById('attendance-type').value;
+        const time = new Date().toLocaleTimeString();
+        
+        addAttendanceRecord(type, time);
+        updateStats(type);
+    });
 });

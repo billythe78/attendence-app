@@ -5,21 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance App</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
 </head>
 <body>
+    <img
+      src="https://cdn.dribbble.com/userupload/14140091/file/original-bf2f46a6c8358026dc3c6b06d5bb366b.jpg"
+      class="amp"
+      />
+      
     <header>
-        <nav class="navbar">
-            <div class="logo">Attendance App</div>
-            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#attendance" class="nav-link" data-page="attendance">Attendance Page</a></li>
-                <li><a href="#query" class="nav-link" data-page="query">Query Page</a></li>
-                <li><a href="#outpass" class="nav-link" data-page="outpass">Outpass Page</a></li>
-                <li><a href="#events" class="nav-link" data-page="events">Upcoming Events</a></li>
-            </ul>
-        </nav>
-    </header>
+        <button class="nav-btn open-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
 
+        
+        
+        <div class="nav nav-black">
+            <div class="nav nav-red">
+                <div class="nav nav-white">
+                    <button class="nav-btn close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div class="logo">Attendance App</div>
+                    
+                    <ul class="list">
+                        <a href="#attendance" class="nav-link" data-page="attendance"><button class="button-56"><li>Attendance Page</li></button></a>
+                        <a href="#query" class="nav-link" data-page="query"><button class="button-56"><li>Query Page</li></button></a>
+                        <a href="#outpass" class="nav-link" data-page="outpass"><button class="button-56"><li>Outpass Page</li></button></a></li>
+                        <a href="#events" class="nav-link" data-page="events"><button class="button-56"><li>Upcoming Events</li></button></a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <h1 class="h1">Welcome To MIT attendance website!!</h1>
     <main>
         <section id="attendance" class="page-content hidden">
             <h2 class="attendance-heading">Attendance Page</h2>
@@ -31,12 +52,34 @@
                 <input type="text" id="room" name="room" required>
                 <label for="attendance-number">Attendance Number:</label>
                 <input type="text" id="attendance-number" name="attendance-number" required>
+                <label for="attendance-type">Attendance Type:</label>
+                <select id="attendance-type" name="attendance-type" required>
+                    <option value="in">Check In</option>
+                    <option value="out">Check Out</option>
+                </select>
                 <button type="submit">Generate QR Code</button>
             </form>
             <div id="qr-code-container" class="hidden">
                 <img id="qr-code" src="" alt="QR Code">
             </div>
             <p id="message" class="hidden">Attendance received!</p>
+            
+            <div id="geolocation-container">
+                <button id="get-location">Use Current Location</button>
+                <p id="location-status"></p>
+            </div>
+            
+            <div id="attendance-history">
+                <h3>Recent Attendance History</h3>
+                <ul id="attendance-list"></ul>
+            </div>
+            
+            <div id="attendance-stats">
+                <h3>Attendance Statistics</h3>
+                <p>Total Check-ins: <span id="total-checkins">0</span></p>
+                <p>Total Check-outs: <span id="total-checkouts">0</span></p>
+                <p>Attendance Streak: <span id="attendance-streak">0</span> days</p>
+            </div>
         </section>
 
         <section id="query" class="page-content hidden">
