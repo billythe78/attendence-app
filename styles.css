@@ -5,6 +5,19 @@ body, h1, h2, p, input, button, textarea, select {
     box-sizing: border-box;
 }
 
+@keyframes pulse {
+    0% {
+      --bg: var(--c3);
+    }
+    50% {
+      --bg: var(--c1);
+    }
+    100% {
+      --bg: var(--c3);
+    }
+  }
+
+
 /* Basic styles */
 body {
     --s: 25vmin;
@@ -16,6 +29,11 @@ body {
     --d: 4000ms;
     --e: cubic-bezier(0.76, 0, 0.24, 1);
     
+    animation: colorAnimation var(--d) var(--e) infinite,
+             positionAnimation var(--d) var(--e) infinite,
+             pulse var(calc(2 * var(--d))) var(--e) infinite;
+
+
     background-color: var(--bg);
     background-image:
         linear-gradient(45deg, var(--c1) 25%, transparent 25%),
@@ -107,7 +125,20 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
+    animation: slide var(calc(2 * var(--d))) var(--e) infinite;
 }
+@keyframes slide {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
 
 .navbar {
     display: flex;
@@ -661,4 +692,16 @@ button:hover {
 #attendance-type {
     color: black;
     background-color: white;
+}
+ button {
+    border-radius: 12px;
+    background: #000000;
+    box-shadow: 7px 7px 20px #6b6de2, -7px -7px 20px #e65050;
+    padding: 12px;
+    transition: all 0.3s ease;
+    
+}
+button:focus {
+    box-shadow: inset 7px 7px 20px #eb7e7e, inset -7px -7px 20px #7e33c4;
+    outline: none;
 }

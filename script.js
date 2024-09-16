@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <input type="radio" name="status-${Date.now()}" value="unresolved"> Unresolved
             </td>
             <td><button class="edit-button">Edit</button></td>
+            <td><button class="delete-button">Delete</button></td>
         `;
         queryTableBody.appendChild(row);
 
@@ -137,6 +138,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+    document.querySelector('#query-table').addEventListener('click', (event) => {
+        if (event.target.classList.contains('delete-button')) {
+            const row = event.target.closest('tr');
+            row.remove();
+            saveToLocalStorage();
+        }
+    });
 
     // Save and Load data from localStorage
     function loadFromLocalStorage() {
@@ -156,6 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="radio" name="status-${query.timestamp}" value="unresolved" ${query.status === 'unresolved' ? 'checked' : ''}> Unresolved
                 </td>
                 <td><button class="edit-button">Edit</button></td>
+                <td><button class="delete-button">Delete</button></td>
+                
             `;
             queryTableBody.appendChild(row);
         });
