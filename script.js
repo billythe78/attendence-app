@@ -338,6 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
             list.removeChild(list.lastChild);
         }
     }
+
     
     // Attendance statistics functionality
     let checkIns = 0;
@@ -365,4 +366,50 @@ document.addEventListener('DOMContentLoaded', () => {
         addAttendanceRecord(type, time);
         updateStats(type);
     });
+});
+
+document.getElementById('add-event').addEventListener('click', function() {
+    const eventName = document.getElementById('event-name').value;
+    const eventDate = document.getElementById('event-date').value;
+
+    if (eventName && eventDate) {
+        const tableBody = document.getElementById('events-body');
+        const newRow = tableBody.insertRow();
+
+        newRow.innerHTML = `
+            <td>${eventName}</td>
+            <td>${eventDate}</td>
+            <td>MIT Campus</td>
+            <td>Description goes here.</td>
+            <td><button class="delete-event">Delete</button></td>
+        `;
+
+        // Clear input fields
+        document.getElementById('event-name').value = '';
+        document.getElementById('event-date').value = '';
+
+        // Add delete functionality
+        newRow.querySelector('.delete-event').addEventListener('click', function() {
+            tableBody.deleteRow(newRow.rowIndex - 1);
+        });
+    } else {
+        alert("Please fill in both fields.");
+    }
+});
+
+// Add event listeners to existing delete buttons
+document.querySelectorAll('.delete-event').forEach(button => {
+    button.addEventListener('click', function() {
+        const row = this.closest('tr');
+        row.parentNode.removeChild(row);
+    });
+});
+window.addEventListener('load', function() {
+    const navbar = document.querySelector('.navbar'); // Adjust the selector based on your navbar class
+    const main = document.querySelector('main');
+    
+    if (navbar) {
+        const navbarHeight = navbar.offsetHeight;
+        main.style.paddingTop = `${navbarHeight}px`;
+    }
 });
