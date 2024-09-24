@@ -489,6 +489,11 @@ button:hover {
 .calendar-container {
     margin: 20px 0;
     margin-left: 401px;
+    color: white;
+    width: 42%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
 }
 
 .calendar-container input {
@@ -638,7 +643,7 @@ button:hover {
   }
   
   .open-btn {
-    position: absolute;
+    position: fixed;
     top: 43px;
     left: 56px;
     color:rgb(255, 255, 255)
@@ -941,6 +946,7 @@ button:hover {
 }
  button {
     border-radius: 12px;
+    margin-top: 2%;
     background: #000000;
     box-shadow: 7px 7px 20px #6b6de2, -7px -7px 20px #e65050;
     padding: 12px;
@@ -950,4 +956,13 @@ button:hover {
 button:focus {
     box-shadow: inset 7px 7px 20px #eb7e7e, inset -7px -7px 20px #7e33c4;
     outline: none;
+}
+
+
+#attendance-history{
+    color:white;
+}
+
+#attendance-stats{
+    color:white;
 }
